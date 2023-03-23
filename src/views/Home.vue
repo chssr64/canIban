@@ -2,6 +2,7 @@
 <div class="relative w-full h-full flex flex-col">
 
       <Sidebar :opened="isOpenSidebar" :projects="projects" @openProject="openProject" v-click-outside="closeSidebar"></Sidebar>
+      <SearchPanel :search="openSearch" v-click-outside="openSearch = false"></SearchPanel>
 
 
 
@@ -10,7 +11,7 @@
     <!-- header -->
   <div class=" w-full h-16 p-0 m-0 bg-gray-200">
     <div class="flex justify-end h-10 pt-4 pr-4">
-      <input type="text" placeholder="поиск" class="w-16 focus:w-2/6 focus:ring-0 focus:outline-none focus:border-none border-none outline-none placeholder-gray-300
+      <input @focus="openSearch = true" type="text" placeholder="поиск" class="w-16 focus:w-1/6 focus:ring-0 focus:outline-none focus:border-none border-none outline-none placeholder-gray-300
              text-xs justify-right rounded-lg duration-300">
     </div>
 
@@ -166,6 +167,8 @@ import { useStore } from 'vuex'
 import Sidebar from '../components/Sidebar.vue'
 import Ticket from '../components/Ticket.vue'
 import NewTicket from '../components/NewTicket.vue'
+import SearchPanel from '../components/SearchPanel.vue'
+
 
 
 export default {
@@ -173,6 +176,7 @@ export default {
     Sidebar,
     Ticket,
     NewTicket,
+    SearchPanel,
   },
 
   setup() {
@@ -316,6 +320,13 @@ export default {
 
     }
 
+
+
+    const openSearch = ref(false)
+    const searchTickets = () => {
+      console.log('search')
+    }
+
   return {
     isOpenSidebar,
     closeSidebar,
@@ -332,6 +343,8 @@ export default {
     createNewInWork,
     createNewReady,
     addTicket,
+    searchTickets,
+    openSearch,
     }
   }
 }
