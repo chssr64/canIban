@@ -2,7 +2,7 @@
 <div class="relative w-full h-full flex flex-col">
 
       <Sidebar :opened="isOpenSidebar" :projects="projects" @openProject="openProject" v-click-outside="closeSidebar"></Sidebar>
-      <SearchPanel :search="openSearch" v-click-outside="openSearch = false"></SearchPanel>
+      <SearchPanel :opened="openSearch" :searchTickets="findedTickets" v-click-outside="closeSearch"></SearchPanel>
 
 
 
@@ -11,8 +11,9 @@
     <!-- header -->
   <div class=" w-full h-16 p-0 m-0 bg-gray-200">
     <div class="flex justify-end h-10 pt-4 pr-4">
-      <input @focus="openSearch = true" type="text" placeholder="поиск" class="w-16 focus:w-1/6 focus:ring-0 focus:outline-none focus:border-none border-none outline-none placeholder-gray-300
-             text-xs justify-right rounded-lg duration-300">
+      <input id="searchInput" v-model="search" @input="searchTickets" @focus="openSearch = true" type="text" placeholder="поиск" class="w-16 focus:w-80 focus:ring-0 focus:outline-none focus:border-none border-none outline-none placeholder-gray-300
+             text-xs justify-right rounded-lg duration-300 z-30">
+             <!-- <p>{{search}}</p> -->
     </div>
 
     <div class="filters flex pl-20 gap-x-5 w-auto">
@@ -301,6 +302,7 @@ export default {
     const openProject = (project) => {
       reset()
       workTickets.value = workTickets.value.filter((el) => el.project === project)
+      isOpenSidebar.value = false
     }
 
 
@@ -322,9 +324,22 @@ export default {
 
 
 
+    const search = ref('')
     const openSearch = ref(false)
+    const closeSearch = (event) => {
+      if(event.target.id === 'searchInput') {
+        return
+      }
+      openSearch.value = false
+    }
+    const findedTickets = ref([])
     const searchTickets = () => {
-      console.log('search')
+      console.log('меняем инпут')
+      if(search.value === '') {
+        findedTickets.value.splice(0, findedTickets.value.length)
+        return
+      }
+      findedTickets.value = allTickets.value.filter((el) => el.title.toLowerCase().indexOf(search.value.toLowerCase()) !== -1)
     }
 
   return {
@@ -345,6 +360,10 @@ export default {
     addTicket,
     searchTickets,
     openSearch,
+    closeSearch,
+    search,
+    searchTickets,
+    findedTickets,
     }
   }
 }

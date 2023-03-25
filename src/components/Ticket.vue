@@ -2,7 +2,7 @@
 
   <div :class="hclass" class="z-0" v-click-outside="closeTicket">
     <div id="headerOfTicket" @click="openContent = !openContent" :class="openContent ? 'h-[calc(100%-.5rem)]' : 'h-8'"
-         class="flex flex-col duration-300 relative w-full place-content-between overflow-hidden border border-gray-400 border-opacity-500 mt-2 mb-2 p-1 rounded"
+         class="flex flex-col bg-white duration-300 relative w-full place-content-between overflow-hidden border border-gray-400 border-opacity-500 mt-2 mb-2 p-1 rounded"
          >
 
          <name :name="ticket.title" titleClass=""></name>
